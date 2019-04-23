@@ -3,6 +3,9 @@ var exphbs= require("express-handlebars");
 var mongoose= require("mongoose");
 var axios = require ("axios")
 var cheerio = require("cheerio")
+var Note = require("./models/Note.js");
+var Article = require("./models/Article.js");
+
 var PORT = process.env.PORT || 8080
 
 var app = express();
@@ -40,25 +43,35 @@ app.get("/", function(req, res) {
 app.get("/article", function(req, res){   
 axios.get("https://www.theonion.com/").then(function(response){
         var $ = cheerio.load(response.data);
-        var results =[]
-        $("h1").each(function(i, element) {
-            var title = $(element).children().text();
-            var link = $(element).find("a").attr("href");
+        
+        var results =[];
+        $(".js_post_item").each(function(i, element) {
             
-            // Save these results in an object that we'll push into the results array we defined earlier
+             var link = $(element).children("header").children("h1").children("a").attr("href");
+            var title = $(element).children("header").children("h1").children("a").text();
+            var summary = $(element).children(".js_item-content").children(".entry-summary").children("p").text();
+            // Save these results in an object that we'll push into the results array
             results.push({
               title: title,
               link: link,
+              summary: summary
               
             });
-            res.json(results)
-        })
+            console.log(results)
+                         
 
         });
         
-    })
+        res.json(results)
+        
+        // res.render("index", results);
+        });
+        
+    });
 
-         app.get("/articles", function(req, res) {
+
+         
+app.get("/article", function(req, res) {
   
   db.Article.find()
     .then(function(article){
@@ -73,10 +86,10 @@ axios.get("https://www.theonion.com/").then(function(response){
 
 
 
-app.get("/articles/:id", function(req, res) {
+app.get("/article/:id", function(req, res) {
   
   db.Article.findOne({_id: req.params.id}) 
-    .populate ("note")
+    .populate ("notes")
     .then(function(article){
       res.json(article)
 }).catch (function(err){
@@ -87,9 +100,9 @@ app.get("/articles/:id", function(req, res) {
 });
 
 
-app.post("/articles/:id", function(req, res) {
+app.post("/article/:id", function(req, res) {
  
-  db.Note.create(req.body).then(function(note){
+  db.Note.create(req.body).then(function(notes){
     return db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {note: note._id} }, {new: true})
   })
   .then (function(article){

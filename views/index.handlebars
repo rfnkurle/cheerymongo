@@ -7,29 +7,33 @@
         <div class="text-center">
             <h1> The Onion Mongo Scraper</h1>
         </div>
-    <button type="button" class="btn btn-primary scrape-btn">Scrape.</button>
+    <button type="button" class="btn btn-primary scrape-btn">Scrape this Mother.</button>
+    <button type="button" class="btn btn-primary savenote">Save Article</button>
     </div>
-    <div class="col-md-12">
-        {{#if article}}
-            {{#each article}}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>{{this.title}}</h4>
-                </div>
-                <div class="panel-body">
-                    <p> {{this.summary}}</p>
-                    <a href={{this.link}} target="_blank">{{this.link}}</a>
-                    <br><br>
-                    <button type="button" class="btn btn-success save" data-id={{this._id}}>Save Article</button>
-                </div>
-            </div>
-            {{/each}}
-        {{else}}
-        <div class="panel panel-default">
-            <div class="panel-body">
-            <h4>No new articles...yet.</h4>
-            </div>
-         </div>
-        {{/if}}
+    {{#each results}}
+  <div class="card border-primary mb-3">
+    <div class="card-header">
+      <h4>
+        <div class="row">
+          <div class="col-md-10">
+            <a target="_blank" rel="noopener noreferrer" href={{link}}>
+              {{title}}
+            </a>
+          </div>
+          {{!-- <div class="col-md-2">
+            {{#if saved}}
+              <a class="btn btn-primary delArticle" data-id="{{_id}}">Delete Article</a>
+              <a class="btn btn-primary note" data-id="{{_id}}" data-toggle="modal" data-target="#notes-modal">Comments</a>
+            {{else}}
+              <a class="btn btn-primary save" data-title="{{title}}" data-link="{{link}}" data-summary="{{summary}}" data-picture="{{picture}}">Save Article</a>
+            {{/if}}
+          </div> --}}
+        </div>
+      </h4>
     </div>
-</div>
+    <div class="card-body">
+      {{!-- <img src={{picture}}> --}}
+      <p class="summary">{{summary}}</p>
+    </div>
+  </div>
+{{/each}}
