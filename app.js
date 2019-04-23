@@ -26,41 +26,81 @@ app.use(routes)
 
 
 
+app.get("/", function(req, res) {
+  Article.find({"saved": false}, function(error, data) {
+    var hbsObject = {
+      article: data
+    };
+    console.log(hbsObject);
+    res.render("home", hbsObject);
+  });
+});
 
-// app.get("/scrape", function (req, res){
+
 app.get("/article", function(req, res){   
 axios.get("https://www.theonion.com/").then(function(response){
         var $ = cheerio.load(response.data);
         var results =[]
         $("h1").each(function(i, element) {
-
             var title = $(element).children().text();
             var link = $(element).find("a").attr("href");
-            var summary = $(element)
+            
             // Save these results in an object that we'll push into the results array we defined earlier
             results.push({
               title: title,
               link: link,
-              summary: summary
+              
             });
+            res.json(results)
         })
-        
+
         });
         
     })
 
-         
+         app.get("/articles", function(req, res) {
+  
+  db.Article.find()
+    .then(function(article){
+      res.json(article)
+    })
+    .catch(function(err){
+      res.json(err)
+    })
+
+});
+
+
+
+
+app.get("/articles/:id", function(req, res) {
+  
+  db.Article.findOne({_id: req.params.id}) 
+    .populate ("note")
+    .then(function(article){
+      res.json(article)
+}).catch (function(err){
+  res.json(err)
+})
+
+  
+});
+
+
+app.post("/articles/:id", function(req, res) {
  
+  db.Note.create(req.body).then(function(note){
+    return db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {note: note._id} }, {new: true})
+  })
+  .then (function(article){
+    res.json(article)
+  }).catch(function(err){
+    res.json(err)
+  })
+ 
+});
 
-
-
-
-
-
-
-
-
-
+ 
 
 
 
