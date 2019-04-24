@@ -17,9 +17,10 @@ app.set("view engine", "handlebars");
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-mongoose.connect(MONGODB_URI, {
+mongoose.connect("mongodb://localhost/mongoHeadlines", {
     useNewUrlParser: true
 });
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -29,15 +30,7 @@ app.use(routes)
 
 
 
-app.get("/", function(req, res) {
-  Article.find({"saved": false}, function(error, data) {
-    var hbsObject = {
-      article: data
-    };
-    console.log(hbsObject);
-    res.render("home", hbsObject);
-  });
-});
+
 
 
 app.get("/article", function(req, res){   
@@ -57,17 +50,18 @@ axios.get("https://www.theonion.com/").then(function(response){
               summary: summary
               
             });
-            console.log(results)
-                         
-
+            // console.log(results)
+                        
         });
+        res.render("index", {results});
+
+        // res.json(results)
         
-        res.json(results)
-        
-        // res.render("index", results);
+         
         });
         
     });
+    
 
 
          
@@ -112,6 +106,76 @@ app.post("/article/:id", function(req, res) {
   })
  
 });
+
+  
+
+//   // post route to save an atricle to the database
+//   app.post("/savedarticles", function(req, res) {
+//     db.Article.create({
+//       title: req.body.title,
+//       link: req.body.link,
+//       summary: req.body.summary,
+      
+//     }).then(function(dbArticle){
+//       res.json(dbArticle);
+//     }).catch(function(err){
+//       res.json(err);
+//     });
+//   });
+
+//   // delete route to remove a saved article from the database
+//   app.delete("/savedarticles", function(req, res) {
+//     // first remove any note associated with the article
+//     db.Note.remove({
+//       article: req.body.id
+//     // then remove the article itself
+//     }).then(function(dbNote){
+//       return db.Article.remove({_id: req.body.id})
+//     // respond to the browser
+//     }).then(function(dbArticle){
+//       res.json(dbArticle);
+//     }).catch(function(err){
+//       res.json(err);
+//     });
+//   });
+
+//   // get route to retrieve the comments associated with a specified article
+//   app.get("/savednotes", function(req, res) {
+//     db.Note.find({
+//       article: req.query.articleId
+//     }).then(function(dbNote) {
+//       res.json(dbNote);
+//     }).catch(function(err) {
+//       res.json(err);
+//     });
+//   });
+
+//   // post route to add a comment to the specified article
+//   app.post("/savednotes", function(req, res) {
+//     db.Note.create({
+//       body: req.body.body,
+//       article: req.body.article
+//     }).then(function(dbNote){
+//       res.json(dbNote);
+//     }).catch(function(err){
+//       res.json(err);
+//     });
+//   });
+
+//   // delete route to remove a comment
+//   app.delete("/savednotes", function(req, res) {
+//     db.Note.remove({
+//       _id: req.body.id
+//     }, function(err, data){
+//       if (err) {
+//         res.send(500);
+//         console.log(err);
+//       } else {
+//         res.json(data);
+//       };
+//     });
+//   });
+
 
  
 

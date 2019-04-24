@@ -11,30 +11,21 @@ $(document).ready(function(){
     })
 });
 
-$(document).on("click", ".savenote", function() {
-  // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
-
-  // Run a POST request to change the note, using what's entered in the inputs
-  $.ajax({
-    method: "POST",
-    url: "/articles/" + thisId,
-    data: {
-      // Value taken from title input
-      title: $("#titleinput").val(),
-      // Value taken from note textarea
-      body: $("#bodyinput").val()
-    }
-  })
-    // With that done
-    .then(function(data) {
-      // Log the response
-      console.log(data);
-      // Empty the notes section
-      $("#notes").empty();
+$(document).on("click", ".save", function(event){
+    var data = {
+      title: $(this).attr("data-title"),
+      link: $(this).attr("data-link"),
+      summary: $(this).attr("data-summary"),
+    };
+    $.ajax({
+      method: "POST",
+      url: "/savedarticles",
+      data: data
+    }).done(function(result){
+      location.reload();
+    }).fail(function(xhr, responseText, responseStatus){
+      if (xhr){
+        console.log(xhr.responseText);
+      };
     });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
-});
+  });
