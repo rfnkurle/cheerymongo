@@ -15,8 +15,9 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-
-mongoose.connect("mongodb://localhost/mongoHeadlines", {
+//
+//set to mongoDB server instead of local host
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 });
 
