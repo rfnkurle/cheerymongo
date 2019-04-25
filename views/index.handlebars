@@ -9,7 +9,7 @@
   <hr class="my-4">
   <a class="btn btn-primary btn-lg" href="http://localhost:8080" role="button">Home</a>
   <a class="btn btn-primary btn-lg" href="http://localhost:8080/article" role="button">Scrape this Baby.</a>
-  <a class="btn btn-primary btn-lg" href="http://localhost:8080/savedarticles" role="button">Saved Articles</a>
+  {{!-- <a class="btn btn-primary btn-lg" href="http://localhost:8080/savedarticles" role="button">Saved Articles</a> --}}
 </div>
 
 
@@ -18,7 +18,7 @@
     </div>
     {{#each results.articles}}
   <div class="card border-primary mb-3">
-    <div class="card-header">
+    <div class="card-header" id="notes">
       <h4>
         <div class="row">
           <div class="col-md-10">
@@ -26,14 +26,39 @@
               {{this.title}}
             </a>
           </div>
-          <div class="col-md-2">
-            {{#if saved}}
-              <a class="btn btn-primary delArticle" data-id="{{_id}}">Delete Article</a>
-              <a class="btn btn-primary note" data-id="{{_id}}" data-toggle="modal" data-target="#notes-modal">Comments</a>
-            {{else}}
-              <a class="btn btn-primary save" data-title="{{title}}" data-link="{{this.link}}" data-summary="{{this.summary}}">Save Article</a>
-            {{/if}} 
-          </div> 
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary noteButton" data-toggle="modal" data-target="#exampleModalLong">
+  Leave a Comment
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">What do you think?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text"></span>
+  </div>
+  <textarea id= "notes" class="form-control" aria-label="With textarea"></textarea>
+  <div id="notes"></div>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" onclick="javascript:window.location.reload()" id="savenote"  class="btn btn-primary" >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
       </h4>
     </div>
