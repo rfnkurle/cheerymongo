@@ -2,25 +2,21 @@
 
 
 <!--Homepage-->
-<div class="container">
-    <div class="col-md-12 jumbotron">
-        <div class="text-center">
-            <h1> The Onion Mongo Scraper</h1>
-        </div>
-        <header id="masthead">
-    
-      <nav class="center">
-        <a href="http://localhost:8080"><button type="button" id ="button"class="btn btn-primary">Home</button></a>
-        <a href="http://localhost:8080/article"><button type="button" id="button" class="btn btn-primary scrape-btn">Scrape this Mother.</button></a>
-        <a href="http://localhost:8080/savedarticles"><button type="button" id="button" class="btn btn-primary scrape-btn">Saved Articles.</button></a>
-      </nav>
-    </div>
-    <i class="fas fa-wind fa-4x"></i>
-  </header>
-    
+
+<div class="jumbotron">
+  <h1 class="display-4 text-center">The Onion Mongo Scraper</h1>
+  <p class="lead text-center">Peelin that Onion!</p>
+  <hr class="my-4">
+  <a class="btn btn-primary btn-lg" href="http://localhost:8080" role="button">Home</a>
+  <a class="btn btn-primary btn-lg" href="http://localhost:8080/article" role="button">Scrape this Baby.</a>
+  <a class="btn btn-primary btn-lg" href="http://localhost:8080/savedarticles" role="button">Saved Articles</a>
+</div>
+
+
+  
    
     </div>
-    {{#each results}}
+    {{#each results.articles}}
   <div class="card border-primary mb-3">
     <div class="card-header">
       <h4>
