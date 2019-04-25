@@ -122,7 +122,7 @@ app.post("/article/:id", function(req, res) {
 
   
 
-  app.listen(process.env.PORT || 5001 function(){
+  app.listen(process.env.PORT || 5001, function(){
     console.log("On Port ...")
 });)
 
