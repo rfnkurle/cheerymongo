@@ -17,9 +17,7 @@ app.set("view engine", "handlebars");
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 //
 //set to mongoDB server instead of local host
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true
-});
+mongoose.connect(MONGODB_URI)
 
 require(".")
 
