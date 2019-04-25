@@ -21,6 +21,7 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true
 });
 
+require(".")
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
