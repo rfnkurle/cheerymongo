@@ -5,7 +5,7 @@ var axios = require ("axios")
 var cheerio = require("cheerio")
 var db = require("./models");
 
-var PORT = process.env.PORT || 8080
+// var PORT = process.env.PORT || 8080
 
 var app = express();
 app.use(express.static("public"));
@@ -124,9 +124,8 @@ app.post("/article/:id", function(req, res) {
 
   
 
-  
-
-
-app.listen(PORT, function(){
+  app.listen(process.env.PORT || 5000 function(){
     console.log("On Port 8080")
-});
+});)
+
+
