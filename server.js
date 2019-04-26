@@ -17,7 +17,7 @@ app.set("view engine", "handlebars");
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 //
 //set to mongoDB server instead of local host
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 
 var PORT = process.env.PORT || 8080
 
@@ -126,6 +126,6 @@ app.post("/article/:id", function(req, res) {
 
   app.listen(PORT, function(){
     console.log("On Port ...")
-});)
+});
 
 
